@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="users">
     
+    <!-- 사용자 정보 조회 -->
     <select id="selectUserList">
         SELECT ID
              , USER_ID
@@ -13,5 +14,22 @@
           FROM users 
          WHERE EMAIL = #{email}
     </select>
+
+    <!-- 사용자 정보 저장 -->
+    <insert id="insertUserInformation">
+        INSERT INTO users (
+                 USER_ID
+                ,USER_NAME
+                ,EMAIL
+                ,PASSWORD
+                ,CREATED_DATE
+            )VALUES(
+                 #{userId}
+                ,#{userName}
+                ,#{email}
+                ,#{password}
+                ,NOW()
+            )
+    </insert>
 
 </mapper>
