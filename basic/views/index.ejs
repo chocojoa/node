@@ -1,17 +1,7 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title></title>
-    <!-- CSS files -->
-    <link href="./dist/css/tabler.min.css" rel="stylesheet"/>
-    <link href="./dist/css/tabler-flags.min.css" rel="stylesheet"/>
-    <link href="./dist/css/tabler-payments.min.css" rel="stylesheet"/>
-    <link href="./dist/css/tabler-vendors.min.css" rel="stylesheet"/>
-    <link href="./dist/css/demo.min.css" rel="stylesheet"/>
-
+  <head>    
+    <%-include('./layout/header.ejs')%>
     <script>
 
       document.addEventListener("DOMContentLoaded", function(){
@@ -50,11 +40,11 @@
               <img src="./static/logo.svg" width="110" height="32" alt="Tabler" class="navbar-brand-image">
             </a>
           </h1>
-          <div class="navbar-nav flex-row order-md-last">            
+          <div class="navbar-nav flex-row order-md-last">
             <div class="nav-item dropdown">
-              <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">                
-                <div class="d-none d-xl-block ps-2">                  
-                  <div><%= session.user %></div>                  
+              <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+                <div class="d-none d-xl-block ps-2">
+                  <div><%= session.user %></div>
                 </div>
               </a>
               <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -79,9 +69,7 @@
                     <span class="nav-link-icon d-md-none d-lg-inline-block"><!-- Download SVG icon from http://tabler-icons.io/i/home -->
                       <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><polyline points="5 12 3 12 12 3 21 12 19 12" /><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" /><path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" /></svg>
                     </span>
-                    <span class="nav-link-title">
-                      Home
-                    </span>
+                    <span class="nav-link-title">Home</span>
                   </a>
                 </li>
                 <li class="nav-item dropdown">
@@ -96,80 +84,32 @@
                   <div class="dropdown-menu">
                     <div class="dropdown-menu-columns">
                       <div class="dropdown-menu-column">
-                        <a class="dropdown-item" href="./empty.html" >
-                          Empty page
-                        </a>
-                        <a class="dropdown-item" href="./accordion.html" >
-                          Accordion
-                        </a>
-                        <a class="dropdown-item" href="./blank.html" >
-                          Blank page
-                        </a>
-                        <a class="dropdown-item" href="./buttons.html" >
-                          Buttons
-                        </a>
-                        <a class="dropdown-item" href="./cards.html" >
-                          Cards
-                        </a>
-                        <a class="dropdown-item" href="./cards-masonry.html" >
-                          Cards Masonry
-                        </a>
-                        <a class="dropdown-item" href="./colors.html" >
-                          Colors
-                        </a>
-                        <a class="dropdown-item" href="./dropdowns.html" >
-                          Dropdowns
-                        </a>
-                        <a class="dropdown-item" href="./icons.html" >
-                          Icons
-                        </a>
-                        <a class="dropdown-item" href="./modals.html" >
-                          Modals
-                        </a>
-                        <a class="dropdown-item" href="./maps.html" >
-                          Maps
-                        </a>
-                        <a class="dropdown-item" href="./map-fullsize.html" >
-                          Map fullsize
-                        </a>
-                        <a class="dropdown-item" href="./maps-vector.html" >
-                          Vector maps
-                        </a>
+                        <a class="dropdown-item" href="./empty.html" >Empty page</a>
+                        <a class="dropdown-item" href="./accordion.html" >Accordion</a>
+                        <a class="dropdown-item" href="./blank.html" >Blank page</a>
+                        <a class="dropdown-item" href="./buttons.html" >Buttons</a>
+                        <a class="dropdown-item" href="./cards.html" >Cards</a>
+                        <a class="dropdown-item" href="./cards-masonry.html" >Cards Masonry</a>
+                        <a class="dropdown-item" href="./colors.html" >Colors</a>
+                        <a class="dropdown-item" href="./dropdowns.html" >Dropdowns</a>
+                        <a class="dropdown-item" href="./icons.html" >Icons</a>
+                        <a class="dropdown-item" href="./modals.html" >Modals</a>
+                        <a class="dropdown-item" href="./maps.html" >Maps</a>
+                        <a class="dropdown-item" href="./map-fullsize.html" >Map fullsize</a>
+                        <a class="dropdown-item" href="./maps-vector.html" >Vector maps</a>
                       </div>
                       <div class="dropdown-menu-column">
-                        <a class="dropdown-item" href="./navigation.html" >
-                          Navigation
-                        </a>
-                        <a class="dropdown-item" href="./charts.html" >
-                          Charts
-                        </a>
-                        <a class="dropdown-item" href="./pagination.html" >
-                          Pagination
-                        </a>
-                        <a class="dropdown-item" href="./placeholder.html" >
-                          Placeholder
-                        </a>
-                        <a class="dropdown-item" href="./tabs.html" >
-                          Tabs
-                        </a>
-                        <a class="dropdown-item" href="./tables.html" >
-                          Tables
-                        </a>
-                        <a class="dropdown-item" href="./carousel.html" >
-                          Carousel
-                        </a>
-                        <a class="dropdown-item" href="./lists.html" >
-                          Lists
-                        </a>
-                        <a class="dropdown-item" href="./typography.html" >
-                          Typography
-                        </a>
-                        <a class="dropdown-item" href="./offcanvas.html" >
-                          Offcanvas
-                        </a>
-                        <a class="dropdown-item" href="./markdown.html" >
-                          Markdown
-                        </a>
+                        <a class="dropdown-item" href="./navigation.html" >Navigation</a>
+                        <a class="dropdown-item" href="./charts.html" >Charts</a>
+                        <a class="dropdown-item" href="./pagination.html" >Pagination</a>
+                        <a class="dropdown-item" href="./placeholder.html" >Placeholder</a>
+                        <a class="dropdown-item" href="./tabs.html" >Tabs</a>
+                        <a class="dropdown-item" href="./tables.html" >Tables</a>
+                        <a class="dropdown-item" href="./carousel.html" >Carousel</a>
+                        <a class="dropdown-item" href="./lists.html" >Lists</a>
+                        <a class="dropdown-item" href="./typography.html" >Typography</a>
+                        <a class="dropdown-item" href="./offcanvas.html" >Offcanvas</a>
+                        <a class="dropdown-item" href="./markdown.html" >Markdown</a>
                         <div class="dropend">
                           <a class="dropdown-item dropdown-toggle" href="#sidebar-authentication" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false" >
                             Authentication
@@ -216,39 +156,17 @@
                     </span>
                   </a>
                   <div class="dropdown-menu">
-                    <a class="dropdown-item" href="./activity.html" >
-                      Activity
-                    </a>
-                    <a class="dropdown-item" href="./gallery.html" >
-                      Gallery
-                    </a>
-                    <a class="dropdown-item" href="./invoice.html" >
-                      Invoice
-                    </a>
-                    <a class="dropdown-item" href="./search-results.html" >
-                      Search results
-                    </a>
-                    <a class="dropdown-item" href="./pricing.html" >
-                      Pricing cards
-                    </a>
-                    <a class="dropdown-item" href="./users.html" >
-                      Users
-                    </a>
-                    <a class="dropdown-item" href="./license.html" >
-                      License
-                    </a>
-                    <a class="dropdown-item" href="./music.html" >
-                      Music
-                    </a>
-                    <a class="dropdown-item" href="./uptime.html" >
-                      Uptime monitor
-                    </a>
-                    <a class="dropdown-item" href="./widgets.html" >
-                      Widgets
-                    </a>
-                    <a class="dropdown-item" href="./wizard.html" >
-                      Wizard
-                    </a>
+                    <a class="dropdown-item" href="./activity.html" >Activity</a>
+                    <a class="dropdown-item" href="./gallery.html" >Gallery</a>
+                    <a class="dropdown-item" href="./invoice.html" >Invoice</a>
+                    <a class="dropdown-item" href="./search-results.html" >Search results</a>
+                    <a class="dropdown-item" href="./pricing.html" >Pricing cards</a>
+                    <a class="dropdown-item" href="./users.html" >Users</a>
+                    <a class="dropdown-item" href="./license.html" >License</a>
+                    <a class="dropdown-item" href="./music.html" >Music</a>
+                    <a class="dropdown-item" href="./uptime.html" >Uptime monitor</a>
+                    <a class="dropdown-item" href="./widgets.html" >Widgets</a>
+                    <a class="dropdown-item" href="./wizard.html" >Wizard</a>
                   </div>
                 </li>
                 <li class="nav-item active dropdown">
@@ -263,44 +181,20 @@
                   <div class="dropdown-menu">
                     <div class="dropdown-menu-columns">
                       <div class="dropdown-menu-column">
-                        <a class="dropdown-item" href="./layout-horizontal.html" >
-                          Horizontal
-                        </a>
-                        <a class="dropdown-item" href="./layout-vertical.html" >
-                          Vertical
-                        </a>
-                        <a class="dropdown-item" href="./layout-vertical-transparent.html" >
-                          Vertical transparent
-                        </a>
-                        <a class="dropdown-item" href="./layout-vertical-right.html" >
-                          Right vertical
-                        </a>
-                        <a class="dropdown-item" href="./layout-condensed.html" >
-                          Condensed
-                        </a>
-                        <a class="dropdown-item" href="./layout-combo.html" >
-                          Combined
-                        </a>
+                        <a class="dropdown-item" href="./layout-horizontal.html" >Horizontal</a>
+                        <a class="dropdown-item" href="./layout-vertical.html" >Vertical</a>
+                        <a class="dropdown-item" href="./layout-vertical-transparent.html" >Vertical transparent</a>
+                        <a class="dropdown-item" href="./layout-vertical-right.html" >Right vertical</a>
+                        <a class="dropdown-item" href="./layout-condensed.html" >Condensed</a>
+                        <a class="dropdown-item" href="./layout-combo.html" >Combined</a>
                       </div>
                       <div class="dropdown-menu-column">
-                        <a class="dropdown-item" href="./layout-navbar-dark.html" >
-                          Navbar dark
-                        </a>
-                        <a class="dropdown-item" href="./layout-navbar-sticky.html" >
-                          Navbar sticky
-                        </a>
-                        <a class="dropdown-item" href="./layout-navbar-overlap.html" >
-                          Navbar overlap
-                        </a>
-                        <a class="dropdown-item" href="./layout-rtl.html" >
-                          RTL mode
-                        </a>
-                        <a class="dropdown-item active" href="./layout-fluid.html" >
-                          Fluid
-                        </a>
-                        <a class="dropdown-item" href="./layout-fluid-vertical.html" >
-                          Fluid vertical
-                        </a>
+                        <a class="dropdown-item" href="./layout-navbar-dark.html" >Navbar dark</a>
+                        <a class="dropdown-item" href="./layout-navbar-sticky.html" >Navbar sticky</a>
+                        <a class="dropdown-item" href="./layout-navbar-overlap.html" >Navbar overlap</a>
+                        <a class="dropdown-item" href="./layout-rtl.html" >RTL mode</a>
+                        <a class="dropdown-item active" href="./layout-fluid.html" >Fluid</a>
+                        <a class="dropdown-item" href="./layout-fluid-vertical.html" >Fluid vertical</a>
                       </div>
                     </div>
                   </div>
@@ -327,20 +221,14 @@
             <div class="row align-items-center">
               <div class="col">
                 <!-- Page pre-title -->
-                <div class="page-pretitle">
-                  Overview
-                </div>
-                <h2 class="page-title">
-                  Fluid layout
-                </h2>
+                <div class="page-pretitle">Overview</div>
+                <h2 class="page-title">Fluid layout</h2>
               </div>
               <!-- Page title actions -->
               <div class="col-auto ms-auto d-print-none">
                 <div class="btn-list">
                   <span class="d-none d-sm-inline">
-                    <a href="#" class="btn btn-white">
-                      New view
-                    </a>
+                    <a href="#" class="btn btn-white">New view</a>
                   </span>
                   <a href="#" class="btn btn-primary d-none d-sm-inline-block" data-bs-toggle="modal" data-bs-target="#modal-report">
                     <!-- Download SVG icon from http://tabler-icons.io/i/plus -->

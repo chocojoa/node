@@ -32,9 +32,11 @@ app.use(flash());
 var passport = require('./lib/passport')(app);
 var indexRouter = require('./routes/index');
 var authRouter = require('./routes/auth')(passport);
+var boardRouter = require('./routes/board');
 
 app.use('/', indexRouter);
 app.use('/', authRouter);
+app.use('/board', boardRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

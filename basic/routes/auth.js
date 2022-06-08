@@ -11,7 +11,7 @@ module.exports = function (passport) {
   /* GET login page. */
   router.get('/sign_in', function(req, res, next) {
     var flash_message = req.flash();
-    res.render('login/sign_in', { message: flash_message.error } );
+    res.render('auth/sign_in', { message: flash_message.error } );
   });
 
   router.post('/sign_in', 
@@ -23,7 +23,7 @@ module.exports = function (passport) {
   }));
 
   router.get('/sign_up', function(req, res, next) {
-    res.render('login/sign_up');
+    res.render('auth/sign_up');
   });
 
   router.post('/sign_up', async function(req, res, next) {
