@@ -20,7 +20,8 @@ module.exports = function (passport) {
       failureRedirect: '/sign_in',
       failureFlash: true,
       successFlash: true
-  }));
+    })
+  );
 
   router.get('/sign_up', function(req, res, next) {
     res.render('auth/sign_up');

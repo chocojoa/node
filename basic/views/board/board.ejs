@@ -1,13 +1,61 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <%- include('../layout/header') %>    
+    <%- include('../layout/header') %>
+
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+    <link href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>    
+
+    <style>
+        .pagination > li {
+            margin-right: 10px;
+        }
+    </style>
+
+    <script>
+
+        $(document).ready(function () {
+
+            selectBoardList();
+
+        });
+
+        function selectBoardList() {
+            var param = {
+                type : 'notice',
+                pageSize : 10                
+            };
+            $('#example').DataTable({
+                language : 'lang_kor',
+                ajax : {
+                    url : '/board/selectBoardList',
+                    type : 'GET',
+                    data : param
+                },                
+                pagingType: 'simple_numbers',
+                columnDefs: [
+                    { className: "dt-head-center", targets: [ 0, 1, 2, 3, 4 ] },
+                    { className: "dt-center", targets: [ 0, 2, 3, 4 ] }
+                ],
+                "columns" : [ 
+                    { "width" : "5%", data : 'no' }, 
+                    { "width" : "60%", data : 'title' }, 
+                    { "width" : "15%", data : 'userName' }, 
+                    { "width" : "15%", data : 'createDate' }, 
+                    { "width" : "5%", data : 'views' }
+                ]
+            });
+        }
+
+    </script>
+
 </head>
 <body>
     <div class="page">
         <%-include('../layout/navbar')%>
         <div class="page-wrapper">
-            <div class="container-xl">
+            <div class="container-fluid">
                 <!-- Page title -->
                 <div class="page-header d-print-none">
                     <div class="row align-items-center">
@@ -18,8 +66,29 @@
                 </div>
             </div>
             <div class="page-body">
-                <div class="container-xl">
+                <div class="container-fluid">
                     <!-- Content here -->
+                    <div class="row row-cards">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body">
+                                    <table id="example" class="table" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>번호</th>
+                                                <th>제목</th>
+                                                <th>작성자</th>
+                                                <th>작성일</th>
+                                                <th>조회수</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

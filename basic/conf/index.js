@@ -5,7 +5,10 @@ const mybatisMapper = require('mybatis-mapper');
 
 require('dotenv').config({path: 'conf/.env'});
 
-mybatisMapper.createMapper([ 'conf/mappers/users.xml' ]);
+mybatisMapper.createMapper([ 
+    'conf/mappers/users.xml', 
+    'conf/mappers/board.xml'
+]);
 
 const pool = mysql.createPool({
     connectionLimit : process.env.MYSQL_LIMIT,
