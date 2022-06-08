@@ -27,10 +27,14 @@
                 pageSize : 10                
             };
             $('#example').DataTable({
+                processing: true,
+                serverSide: true,
+                destroy : true,
+                searching : false,
                 language : 'lang_kor',
                 ajax : {
                     url : '/board/selectBoardList',
-                    type : 'GET',
+                    type : 'POST',
                     data : param
                 },                
                 pagingType: 'simple_numbers',

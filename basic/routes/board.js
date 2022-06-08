@@ -6,25 +6,32 @@ require('dotenv').config({ path: '../conf/.env'}); // mysql 폴더에 있는 .en
 const mysql = require('../conf');
 
 /* GET board page. */
-router.get('/', auth.loggedIn, function(req, res, next) {
+router.get('/', function(req, res, next) {
     res.render('board/board');
 });
 
-/* GET board list */
-router.get('/selectBoardList', auth.loggedIn, async function(req, res, next) {
-    var query = req.query;
-    var totalCount = await mysql.sqlResult('board', 'selectBoardTotalCount', query);
-    var pageNum = (query.currentPageNo - 1) * query.pageSize;
-    
+/* POST board list */
+router.post('/selectBoardList', async function(req, res, next) {
+    var query = req.body;
+    var pageNum = query.start;
+    var pageSize = query.pageSize;
+
     var param = {
         type : query.type,
         pageNum : pageNum,        
-        pageSize : query.pageSize
+        pageSize : pageSize
     };
+        
+    var cntResult = await mysql.sqlResult('board', 'selectBoardTotalCount', param);
+    var totalCount = cntResult[0].totalCount;    
 
-    var result = await mysql.sqlResult('board', 'selectBoardList', param);
-    console.log(result);
-    var selectResult = { 'data' : result };
+    var boardList = await mysql.sqlResult('board', 'selectBoardList', param);
+    
+    var selectResult = { 
+        'recordsTotal': totalCount,
+        'recordsFiltered': totalCount,
+        'data' : boardList 
+    };    
     res.send(selectResult);
 });
 

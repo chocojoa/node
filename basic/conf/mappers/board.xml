@@ -21,6 +21,9 @@
           FROM board B
          INNER JOIN users U ON B.USER_ID = U.USER_ID
          WHERE B.TYPE = #{type}
+        <if test='pageSize != "" AND pageSize != null'>
+         LIMIT ${pageNum}, ${pageSize}
+        </if>
     </select>
 
     <!-- 게시판 상세 정보 조회 -->
