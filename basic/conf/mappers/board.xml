@@ -19,8 +19,15 @@
              , B.TITLE                  AS title
              , B.VIEWS                  AS views
              , DATE_FORMAT(B.CREATED_DATE, '%Y-%m-%d') AS createDate
+             , IFNULL(R.REPLY_CNT, 0)   AS replyCnt
           FROM board B
          INNER JOIN users U ON B.USER_ID = U.USER_ID
+          LEFT JOIN (
+                     SELECT BOARD_ID
+                          , COUNT(ID) AS REPLY_CNT
+                       FROM board_reply 
+                      GROUP BY BOARD_ID
+                    ) R ON B.ID = R.BOARD_ID
          WHERE B.TYPE = #{type}
         <if test="sortColumn != null and sortColumn !=''">
          ORDER BY ${sortColumn} ${sortDir}
@@ -104,6 +111,7 @@
          ORDER BY B.ID ASC
     </select>
 
+    <!-- 댓글 정보 저장 -->
     <insert id="insertReplyInformation">
         INSERT INTO board_reply (
                  BOARD_ID
@@ -114,7 +122,7 @@
             )VALUES(
                  #{boardId}
                 ,#{userId}
-                ,#{content}
+                ,#{replyContent}
                 ,NOW()
                 ,#{userId}
             )

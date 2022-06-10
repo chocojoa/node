@@ -12,7 +12,6 @@ module.exports = function (app) {
     passport.serializeUser(function (user, done) {
         var userInfo = user[0];
         delete userInfo.password;
-        console.log(userInfo);
         done(null, userInfo);
     });
     

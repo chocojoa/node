@@ -27,8 +27,6 @@
             margin-right: 10px;
         }
 
-</style>
-
     </style>
 
     <script>
@@ -67,7 +65,9 @@
                 ],
                 "columns" : [ 
                     { "width" : "7%", data : 'no' }, 
-                    { "width" : "54%", data : 'title' }, 
+                    { "width" : "54%", data : 'title', render : function(data, type, row, meta) {
+                        return row.title + "<span class='ms-sm-1' style='font-size: 10px; color: red'>[" + row.replyCnt + "]</span>"
+                    } }, 
                     { "width" : "15%", data : 'userName' }, 
                     { "width" : "15%", data : 'createDate' }, 
                     { "width" : "7%", data : 'views' }

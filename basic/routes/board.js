@@ -5,12 +5,12 @@ var router = express.Router();
 require('dotenv').config({ path: '../conf/.env'});
 const mysql = require('../conf');
 
-/* GET board page. */
+/* 게시판 페이지 조회 */
 router.get('/', auth.loggedIn, function(req, res, next) {    
     res.render('board/boardList', {input : req.query });
 });
 
-/* POST board list */
+/* 게시판 목록 조회 */
 router.post('/selectBoardList', async function(req, res, next) {
     var query = req.body;
     
@@ -42,23 +42,45 @@ router.post('/selectBoardList', async function(req, res, next) {
     res.send(selectResult);
 });
 
-/* GET board page. */
+/* 게시판 페이지 조회 */
 router.get('/detail', auth.loggedIn, function(req, res, next) {
     var input = req.query;
     res.render('board/boardDetail', {input : input });
 });
 
-/* GET board page. */
+/* 게시판 상세 정보 조회 */
 router.post('/selectBoardDetail', async function(req, res, next) {
     var param = req.body;
     var boardList = await mysql.sqlResult('board', 'selectBoardDetail', param);
-    var replyList = await mysql.sqlResult('board', 'selectReplyList', param);
     
     var selectResult = { 
-        'data' : boardList[0],
-        'replyList' : replyList
+        'data' : boardList[0],        
     };
     res.send(selectResult);
+});
+
+/* 게시판 댓글 목록 조회 */
+router.post('/selectBoardReplyList', async function(req, res, next) {
+    var param = req.body;
+    var replyList = await mysql.sqlResult('board', 'selectReplyList', param);
+
+    var selectResult = { 
+        'replyList' : replyList,        
+    };
+    res.send(selectResult);
+});
+
+/* 게시판 댓글 정보 저장 */
+router.post('/insertBoardReplyInformation' , async function(req, res, next) {
+    var param = req.body;
+    var result = await mysql.sqlResult('board', 'insertReplyInformation', param);
+    
+    var insertStatus = false;
+    if(result.affectedRows > 0){
+      insertStatus = true;
+    }
+    var insertResult = { 'success' : insertStatus };
+    res.send(insertResult);
 });
 
 module.exports = router;
