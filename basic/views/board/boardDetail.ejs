@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="en">
+<head>    
+    <%- include('../layout/header.ejs') %>
+
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+    <link href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
+
+    <script>
+
+        var type = '<%= input.type %>';
+        var boardId = '<%= input.boardId %>';
+
+        $(document).ready(function () {
+            
+            $("#listBtn").on('click', function () {                
+                window.history.back();
+            });
+            
+            selectBoardDetail();
+        });
+        
+        function selectBoardDetail() {
+            $.ajax({
+                type : "POST",
+                url : "selectBoardDetail",
+                data : { 
+                    type : type,
+                    boardId : boardId
+                },
+                dataType : "json",
+                success : function(result){
+                    setBoardData(result);
+                }
+            });
+        }
+
+        function setBoardData(result){
+            //상세 데이터
+            var data = result.data;
+            $("#title").text(data.title);
+            $("#createdBy").text(data.email);
+            $("#createdDate").text(data.createdDate);
+            $("#views").text(data.views);
+            var content = data.content;
+            $("#content").html(content.replace(/\n/g, "<br />"));
+
+            //댓글 데이터
+            var replyList = result.replyList;
+            $("#replyCount").text(replyList.length);
+
+            var replyHtml = '';
+            for(var i=0; i<replyList.length; i++){
+                var replyData = replyList[i];
+                replyHtml += '<div>';
+                replyHtml += '<div class="row">';
+                replyHtml += '<div class="col-auto" style="width: 200px"><span>' + replyData.email +'</span>';
+                replyHtml += '</div>';
+                replyHtml += '<div class="col">';
+                replyHtml += '<div class="text-truncate">' + replyData.content + '</div>';
+                replyHtml += '</div>';
+                replyHtml += '<div class="col-xl-1">' + replyData.createdDate + '</div>';
+                replyHtml += '</div>';
+                replyHtml += '</div>';  
+            }
+            $("#replyList").html(replyHtml);
+        }
+
+        function insertBoardReplyInformation(){
+            $.ajax({
+                type : "POST",
+                url : "selectBoardDetail",
+                data : { 
+                    type : type,
+                    boardId : boardId
+                },
+                dataType : "json",
+                success : function(result){
+                    setBoardData(result.data);
+                }
+            });            
+        }
+
+    </script>
+
+</head>
+<body>
+    <div class="page">
+        <%-include('../layout/navbar')%>
+        <div class="page-wrapper">
+            <div class="container-fluid">
+                <!-- Page title -->
+                <div class="page-header d-print-none">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h2 class="page-title">Board</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-body">
+                <div class="container-fluid">
+                    <!-- Content here -->
+                    <div class="row row-cards">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title" id="title"></h3>
+                                    <div class="ms-auto">
+                                        <span class="form-check-description">
+                                            작성자 : <span id="createdBy"></span> | 작성일 : <span id="createdDate"></span> | 조회수 : <span id="views"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <div id="content"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="float-sm-end">
+                                <button type="button" class="btn btn-outline-primary me-2">수정</button>
+                                <button type="button" class="btn btn-outline-dark">목록</button>
+                            </div>
+                        </div>                         
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">댓글</h3>
+                                    <span id="replyCount" class="ms-2"></span>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3 divide-y" id="replyList">
+                                    </div>
+                                    <div class="mb-3">
+                                        <textarea id="replyContent" name="replyContent" class="form-control" rows="3" data-bs-toggle="autosize"></textarea>
+                                    </div>
+                                    <div class="d-flex">
+                                        <button type="button" class="btn btn-outline-primary ms-auto">저장</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="float-sm-end">
+                                <button type="button" class="btn btn-outline-dark">목록</button>
+                            </div>
+                        </div>                        
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Libs JS -->
+    <!-- Tabler Core -->
+    <script src="/dist/js/tabler.min.js"></script>
+    <script src="/dist/js/demo.min.js"></script>
+</body>
+
+</html>

@@ -12,6 +12,7 @@
     <!-- 게시판 목록 조회 -->
     <select id="selectBoardList">
         SELECT ROW_NUMBER() OVER(PARTITION BY B.TYPE ORDER BY B.ID) AS no
+             , B.ID                     AS boardId
              , B.USER_ID                AS userId
              , U.USER_NAME              AS userName
              , U.EMAIL                  AS email
@@ -21,24 +22,102 @@
           FROM board B
          INNER JOIN users U ON B.USER_ID = U.USER_ID
          WHERE B.TYPE = #{type}
-        <if test='pageSize != "" AND pageSize != null'>
+        <if test="sortColumn != null and sortColumn !=''">
+         ORDER BY ${sortColumn} ${sortDir}
+        </if>
+        <if test="pageSize != null and pageSize !=''">
          LIMIT ${pageNum}, ${pageSize}
         </if>
     </select>
 
     <!-- 게시판 상세 정보 조회 -->
-    <select id="selectBoardDetailInformation">
-        SELECT B.ID         AS id
+    <select id="selectBoardDetail">
+        SELECT B.ID         AS boardId
              , B.USER_ID    AS userId
              , U.USER_NAME  AS userName
              , U.EMAIL      AS email
              , B.TITLE      AS title
              , B.CONTENT    AS content
              , B.VIEWS      AS views
-             , DATE_FORMAT(B.CREATED_DATE, '%Y-%m-%d') AS createDate
+             , DATE_FORMAT(B.CREATED_DATE, '%Y-%m-%d') AS createdDate
           FROM board B
          INNER JOIN users U ON B.USER_ID = U.USER_ID
          WHERE B.TYPE = #{type}
+           AND B.ID = #{boardId}
     </select>
+
+    <!-- 게시판 조회 수 수정 -->
+    <update id="updateBoardViews">
+        UPDATE board
+           SET VIEWS = VIEWS + 1
+         WHERE TYPE = #{type}
+           AND ID = #{id}
+    </update>
+
+    <!-- 게시판 등록 -->
+    <insert id="insertBoardInformation">
+        INSERT INTO board(
+                 USER_ID
+                ,TITLE
+                ,CONTENT
+                ,VIEWS
+                ,CREATED_DATE
+                ,CREATED_BY
+            )VALUES(
+                 #{userId}
+                ,#{title}
+                ,#{content}
+                ,0
+                ,NOW()
+                ,#{userId}
+            )
+    </insert>
+
+    <!-- 게시판 수정 -->
+    <update id="updateBoardInformation">
+        UPDATE board
+           SET TITLE = #{title}
+             , CONTENT = #{content}
+             , UPDATED_DATE = NOW()
+             , UPDATED_BY = #{userId}
+         WHERE TYPE = #{type}
+           AND ID = #{boardId}
+    </update>
+
+    <!-- 게시판 삭제 -->
+    <delete id="deleteBoardInformation">
+        DELETE FROM board
+         WHERE TYPE = #{type}
+           AND ID = #{boardId}
+    </delete>
+
+    <!-- 댓글 목록 조회 -->
+    <select id="selectReplyList">
+        SELECT B.USER_ID    AS userId
+             , U.USER_NAME  AS userName
+             , U.EMAIL      AS email
+             , B.CONTENT    AS content
+             , DATE_FORMAT(B.CREATED_DATE, '%Y-%m-%d') AS createdDate
+          FROM board_reply B
+         INNER JOIN users U ON B.USER_ID = U.USER_ID
+         WHERE B.BOARD_ID = #{boardId}
+         ORDER BY B.ID ASC
+    </select>
+
+    <insert id="insertReplyInformation">
+        INSERT INTO board_reply (
+                 BOARD_ID
+                ,USER_ID
+                ,CONTENT
+                ,CREATED_DATE
+                ,CREATED_BY
+            )VALUES(
+                 #{boardId}
+                ,#{userId}
+                ,#{content}
+                ,NOW()
+                ,#{userId}
+            )
+    </insert>
 
 </mapper>

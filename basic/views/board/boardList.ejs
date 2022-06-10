@@ -5,49 +5,72 @@
 
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
-    <link href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>    
+    <link href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
 
     <style>
+        
+        table.dataTable tbody tr:hover {
+            background-color: #ececec;
+            cursor: pointer;
+        }
+
+        table.dataTable tbody tr:hover > .sorting_1 {
+            background-color: #ececec;
+            cursor: pointer;
+        }
+
+        table.dataTable thead tr th {
+            font-size : 13px;
+        }
+
         .pagination > li {
             margin-right: 10px;
         }
+
+</style>
+
     </style>
 
     <script>
+        var boardType = '<%= input.type %>';
 
         $(document).ready(function () {
 
             selectBoardList();
 
+            $("#example").on('click', 'tbody tr', function () {
+                var row = $("#example").DataTable().row($(this)).data();
+                location.href = '/board/detail?type=' + boardType + '&boardId=' + row.boardId;
+            });
+
         });
 
         function selectBoardList() {
-            var param = {
-                type : 'notice',
-                pageSize : 10                
-            };
+            
             $('#example').DataTable({
                 processing: true,
                 serverSide: true,
                 destroy : true,
-                searching : false,
-                language : 'lang_kor',
+                searching : false,                
                 ajax : {
                     url : '/board/selectBoardList',
                     type : 'POST',
-                    data : param
+                    data : {
+                        type : boardType
+                    }
                 },                
                 pagingType: 'simple_numbers',
+                order: [[0, 'desc']],
                 columnDefs: [
                     { className: "dt-head-center", targets: [ 0, 1, 2, 3, 4 ] },
                     { className: "dt-center", targets: [ 0, 2, 3, 4 ] }
                 ],
                 "columns" : [ 
-                    { "width" : "5%", data : 'no' }, 
-                    { "width" : "60%", data : 'title' }, 
+                    { "width" : "7%", data : 'no' }, 
+                    { "width" : "54%", data : 'title' }, 
                     { "width" : "15%", data : 'userName' }, 
                     { "width" : "15%", data : 'createDate' }, 
-                    { "width" : "5%", data : 'views' }
+                    { "width" : "7%", data : 'views' }
                 ]
             });
         }
@@ -86,9 +109,11 @@
                                                 <th>조회수</th>
                                             </tr>
                                         </thead>
-                                    </table>
-                                
-                                </div>
+                                    </table>                                    
+                                    <div class="d-flex" style="margin-top: 10px">
+                                        <button type="button" class="btn btn-primary ms-auto">New</button>
+                                    </div>                                    
+                                </div>                                
                             </div>
                         </div>
                     </div>

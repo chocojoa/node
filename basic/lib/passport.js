@@ -10,13 +10,14 @@ module.exports = function (app) {
     app.use(passport.session());
        
     passport.serializeUser(function (user, done) {
-        done(null, user[0].EMAIL);
+        var userInfo = user[0];
+        delete userInfo.password;
+        console.log(userInfo);
+        done(null, userInfo);
     });
     
-    passport.deserializeUser(async function (id, done) {     
-        let param = { email : id };
-        const user = await mysql.sqlResult('users', 'selectUserList', param);
-        done(null, user);
+    passport.deserializeUser(async function (userInfo, done) {  
+        done(null, userInfo);
     });
 
     passport.use(new LocalStrategy(
@@ -31,7 +32,7 @@ module.exports = function (app) {
             
             if (user.length > 0) {
                 let hashPassword = crypto.createHash('sha512').update(password).digest('hex');
-                if(hashPassword === user[0].PASSWORD){
+                if(hashPassword === user[0].password){
                     return done(null, user, {
                         message: 'Welcome.'
                     });

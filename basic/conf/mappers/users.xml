@@ -4,13 +4,11 @@
     
     <!-- 사용자 정보 조회 -->
     <select id="selectUserList">
-        SELECT ID
-             , USER_ID
-             , USER_NAME
-             , EMAIL
-             , PASSWORD
-             , CREATED_DATE
-             , CREATED_BY 
+        SELECT USER_ID          AS userId
+             , USER_NAME        AS userName
+             , EMAIL            AS email
+             , PASSWORD         AS password
+             , CREATED_DATE     AS createdDate
           FROM users 
          WHERE EMAIL = #{email}
     </select>

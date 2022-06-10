@@ -22,7 +22,7 @@ const pool = mysql.createPool({
 const sqlResult = async (spaceName, statementName, param) => {
     let format = {language: 'sql', indent : ' '};
     let query = mybatisMapper.getStatement(spaceName, statementName, param, format);
-    console.log(`query : ${query}`);
+    //console.log(`query : ${query}`);
     return new Promise(function (resolve, reject) {
         pool.query(query, function (error, results, fields) {
             if (error) {
@@ -31,7 +31,7 @@ const sqlResult = async (spaceName, statementName, param) => {
                     error
                 });
             } else {
-                console.log(results);
+                //console.log(results);
                 resolve(results);
             }
         });
