@@ -83,4 +83,40 @@ router.post('/insertBoardReplyInformation' , async function(req, res, next) {
     res.send(insertResult);
 });
 
+/* 게시판 페이지 조회 */
+router.get('/new', auth.loggedIn, function(req, res, next) {    
+    res.render('board/boardNew', {input : req.query });
+});
+
+/* 게시판 정보 저장 */
+router.post('/insertBoardInformation' , async function(req, res, next) {
+    var param = req.body;
+    var result = await mysql.sqlResult('board', 'insertBoardInformation', param);
+    
+    var insertStatus = false;
+    if(result.affectedRows > 0){
+        insertStatus = true;
+    }
+    var insertResult = { 'success' : insertStatus };
+    res.send(insertResult);
+});
+
+/* 게시판 수정 페이지 조회 */
+router.get('/modify', auth.loggedIn, function(req, res, next) {    
+    res.render('board/boardModify', {input : req.query });
+});
+
+/* 게시판 정보 수정 */
+router.post('/updateBoardInformation' , async function(req, res, next) {
+    var param = req.body;
+    var result = await mysql.sqlResult('board', 'updateBoardInformation', param);
+    
+    var updateStatus = false;
+    if(result.affectedRows > 0){
+        updateStatus = true;
+    }
+    var updateResult = { 'success' : updateStatus };
+    res.send(updateResult);
+});
+
 module.exports = router;

@@ -65,6 +65,7 @@
     <insert id="insertBoardInformation">
         INSERT INTO board(
                  USER_ID
+                ,TYPE
                 ,TITLE
                 ,CONTENT
                 ,VIEWS
@@ -72,6 +73,7 @@
                 ,CREATED_BY
             )VALUES(
                  #{userId}
+                ,#{type}
                 ,#{title}
                 ,#{content}
                 ,0

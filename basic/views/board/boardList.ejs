@@ -34,12 +34,16 @@
 
         $(document).ready(function () {
 
-            selectBoardList();
-
             $("#example").on('click', 'tbody tr', function () {
                 var row = $("#example").DataTable().row($(this)).data();
                 location.href = '/board/detail?type=' + boardType + '&boardId=' + row.boardId;
             });
+
+            $("#newBtn").on('click', function () {
+                location.href = '/board/new?type=' + boardType;
+            });            
+
+            selectBoardList();
 
         });
 
@@ -66,7 +70,7 @@
                 "columns" : [ 
                     { "width" : "7%", data : 'no' }, 
                     { "width" : "54%", data : 'title', render : function(data, type, row, meta) {
-                        return row.title + "<span class='ms-sm-1' style='font-size: 10px; color: red'>[" + row.replyCnt + "]</span>"
+                        return row.title + "<span class='ms-sm-1' style='font-size: 11px; color: gery;'>[" + row.replyCnt + "]</span>"
                     } }, 
                     { "width" : "15%", data : 'userName' }, 
                     { "width" : "15%", data : 'createDate' }, 
@@ -111,7 +115,7 @@
                                         </thead>
                                     </table>                                    
                                     <div class="d-flex" style="margin-top: 10px">
-                                        <button type="button" class="btn btn-primary ms-auto">New</button>
+                                        <button type="button" id="newBtn" class="btn btn-primary ms-auto">새 글 작성</button>
                                     </div>                                    
                                 </div>                                
                             </div>
@@ -124,8 +128,8 @@
     </div>
     <!-- Libs JS -->
     <!-- Tabler Core -->
-    <script src="./dist/js/tabler.min.js"></script>
-    <script src="./dist/js/demo.min.js"></script>
+    <script src="/dist/js/tabler.min.js"></script>
+    <script src="/dist/js/demo.min.js"></script>
 </body>
 
 </html>

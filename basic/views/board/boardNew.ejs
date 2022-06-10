@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>    
+    <%- include('../layout/header.ejs') %>
+
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+    <link href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
+
+    <script>
+
+        var boardType = '<%= input.type %>';
+        var userId = '<%= session.user.userId %>';
+
+        $(document).ready(function () {
+            
+            $("#cancelBtn").on('click', function () {                
+                location.href = "/board?type=" + boardType;
+            });
+
+            $("#saveBoardBtn").on('click', function(){
+                insertBoardInformation();
+            });
+            
+        });
+
+        function selectBoardDetail() {
+            $.ajax({
+                type : "POST",
+                url : "selectBoardDetail",
+                data : { 
+                    type : boardType,
+                    boardId : boardId
+                },
+                dataType : "json",
+                success : function(result){     
+                    var data = result.data;    
+                    $("#title").val(data.title);
+                    $("#content").val(data.content);
+                }
+            });
+        }        
+        
+        function insertBoardInformation() {
+            $.ajax({
+                type : "POST",
+                url : "insertBoardInformation",
+                data : { 
+                    type : boardType,
+                    title : $("#title").val(),
+                    content : $("#content").val(),
+                    userId : userId
+                },
+                dataType : "json",
+                success : function(result){
+                    location.href = "/board?type=" + boardType;
+                }
+            });
+        }        
+
+    </script>
+
+</head>
+<body>
+    <div class="page">
+        <%-include('../layout/navbar')%>
+        <div class="page-wrapper">
+            <div class="container-fluid">
+                <!-- Page title -->
+                <div class="page-header d-print-none">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h2 class="page-title">Board</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="page-body">
+                <div class="container-fluid">
+                    <!-- Content here -->
+                    <div class="row row-cards">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <input type="text" id="title" name="title" class="form-control" value=""/>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-xl-12">
+                                            <textarea id="content" name="content" rows="17" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="float-sm-end">
+                                <button type="button" id="saveBoardBtn" class="btn btn-outline-primary me-2">저장</button>
+                                <button type="button" id="cancelBtn" class="btn btn-outline-dark">취소</button>
+                            </div>
+                        </div>                        
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Libs JS -->
+    <!-- Tabler Core -->
+    <script src="/dist/js/tabler.min.js"></script>
+    <script src="/dist/js/demo.min.js"></script>
+</body>
+
+</html>
