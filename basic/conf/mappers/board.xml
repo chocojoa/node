@@ -58,7 +58,7 @@
         UPDATE board
            SET VIEWS = VIEWS + 1
          WHERE TYPE = #{type}
-           AND ID = #{id}
+           AND ID = #{boardId}
     </update>
 
     <!-- 게시판 등록 -->

@@ -7,10 +7,21 @@
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
     <link href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
 
+    <script src="/lib/ckeditor5-build-classic/ckeditor.js"></script>
+    <script src="/lib/ckeditor5-build-classic/translations/ko.js"></script>
+    <script src="/lib/ckeditor5-build-classic/plugins/uploadAdapter.js"></script>
+
+    <style>
+        .ck-editor__editable_inline {
+            min-height: 350px;
+        }
+    </style>
+
     <script>
 
         var boardType = '<%= input.type %>';
         var userId = '<%= session.user.userId %>';
+        var editor;
 
         $(document).ready(function () {
             
@@ -21,8 +32,31 @@
             $("#saveBoardBtn").on('click', function(){
                 insertBoardInformation();
             });
+
+            setCKEditor();
             
         });
+
+        function setCKEditor(){
+            ClassicEditor
+                .create( document.querySelector( '#content' ),{
+                    mediaEmbed: { previewsInData:true },
+                    extraPlugins: [ MyCustomUploadAdapterPlugin ],
+                    language : 'ko'
+                })
+                .then( newEditor => {
+                    editor = newEditor;
+                })
+                .catch( error => {
+                    console.error( error );
+                });
+        }
+
+        function MyCustomUploadAdapterPlugin(editor) {
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                return new UploadAdapter(loader)
+            }
+        }
 
         function selectBoardDetail() {
             $.ajax({
@@ -48,7 +82,7 @@
                 data : { 
                     type : boardType,
                     title : $("#title").val(),
-                    content : $("#content").val(),
+                    content : editor.getData(),
                     userId : userId
                 },
                 dataType : "json",
@@ -87,7 +121,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-xl-12">
-                                            <textarea id="content" name="content" rows="17" class="form-control"></textarea>
+                                            <div id="content" style="min-height: 300px;"></div>
                                         </div>
                                     </div>
                                 </div>

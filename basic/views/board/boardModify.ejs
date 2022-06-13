@@ -7,6 +7,15 @@
     <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
     <link href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
 
+    <script src="/lib/ckeditor5-build-classic/ckeditor.js"></script>
+    <script src="/lib/ckeditor5-build-classic/translations/ko.js"></script>    
+
+    <style>
+        .ck-editor__editable_inline {
+            min-height: 350px;
+        }
+    </style>
+
     <script>
 
         var boardType = '<%= input.type %>';
@@ -21,9 +30,32 @@
 
             $("#saveBoardBtn").on('click', function(){
                 updateBoardInformation();
-            });            
-            selectBoardDetail();
+            });
+            
+            setCKEditor();
         });
+
+        function setCKEditor(){
+            ClassicEditor
+                .create( document.querySelector( '#content' ),{
+                    mediaEmbed: { previewsInData:true },
+                    extraPlugins: [ MyCustomUploadAdapterPlugin ],
+                    language : 'ko'
+                })
+                .then( newEditor => {
+                    editor = newEditor;
+                })
+                .catch( error => {
+                    console.error( error );
+                });
+                selectBoardDetail();
+        }
+
+        function MyCustomUploadAdapterPlugin(editor) {
+            editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                return new UploadAdapter(loader)
+            }
+        }
 
         function selectBoardDetail() {
             $.ajax({
@@ -37,7 +69,7 @@
                 success : function(result){     
                     var data = result.data;    
                     $("#title").val(data.title);
-                    $("#content").val(data.content);
+                    editor.setData(data.content);
                 }
             });
         }        
@@ -50,7 +82,7 @@
                     type : boardType,
                     boardId : boardId,
                     title : $("#title").val(),
-                    content : $("#content").val(),
+                    content : editor.getData(),
                     userId : userId
                 },
                 dataType : "json",
